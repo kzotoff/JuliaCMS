@@ -1,0 +1,29 @@
+{
+	"comment"       : "simple authentication",
+	"main_script"   : "func.php",
+	"class_name"    : "J_Auth",
+	"css"           : [],
+	"js"            : [],
+	"admin_caption" : "",
+	"admin_css"     : [],
+	"admin_js"      : [],
+	"disabled"      : false,
+	"break_after"   : false,
+	"config"        : {
+		"require_login"    : true,
+		"session_username" : "module_auth_user_logged",
+		"database"         : {
+			"server_driver"   : "sqlite",
+			"server_host"     : "data/db.sqlite",
+			"server_login"    : "",
+			"server_password" : "",
+			"server_db_name"  : ""
+		},
+		"secret_default"   : "je1?lwreLNK9*tu+fcgB85(H}JKJhv6ivg__",
+		"table"            : "clients",
+		"login_field"      : "login",
+		"secret_field"     : "secret",
+		"md5_field"        : "md5"
+	}
+
+}

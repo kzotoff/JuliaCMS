@@ -1,0 +1,91 @@
+/*************************************************************************************************/
+/*** сам админ-бокс ******************************************************************************/
+/*************************************************************************************************/
+
+/* отступ странички, чтобы ничего кнопками не закрывалось */
+.admin_padder { padding-top: 2.5em; }
+
+/* бокс для кнопочек, фиксируем его сверху */
+.admin_box_main {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 2.5em;
+	width: 100%;
+	line-height: 1.5em;
+	font-size: 1em;
+	background-color: #000;
+	z-index: 900;
+}
+
+/* сами кнопки в админ-боксе */
+body div.admin_box_main a {
+	display: inline-block;
+	padding: 0em 0.6em; 
+	margin: 0.5em 0.5em; 
+	border: 0px gray solid;
+	cursor: pointer;
+	color: white;
+	background-color: #777;
+	font-weight: bold;
+	font-family: tahoma;
+	text-decoration: none;
+}
+
+/* кнопка текущего модуля - другим цветом */
+.admin_box a.active_admin { background-color: #77c; }
+
+
+/*************************************************************************************************/
+/*** кнопки админки модуля ***********************************************************************/
+/*************************************************************************************************/
+
+.admin_buttons { 
+	padding: 0px;
+	margin: 0px;
+}
+.admin_buttons .btn { margin: 1rem; }
+
+/* wrapper for a form to make all controls in single row */
+.admin_make_inline { display: inline-block; margin: auto 1em; }
+
+
+/*************************************************************************************************/
+/*** module admin part content *******************************************************************/
+/*************************************************************************************************/
+
+.admin_content { padding: 1rem 1rem; }
+
+
+
+/* common table */
+.admin_table { font-size: 12px; border-collapse: collapse; table-layout: fixed; clear: both; }
+.admin_table thead { font-weight: bold; }
+.admin_table td, .admin_table th { border: 1px #bbb solid; padding: 3px; text-align: left; min-width: 7em; }
+.admin_table tbody tr:hover { background-color: #ddd; }
+
+/* at-row smallbar */
+.admin_content .actionboard img { cursor: pointer; }                          /* обертка на иконках в конце строки */
+.admin_content .actionboard { padding:0px 5px 0px 5px; }                      /* поменьше отступ у иконок сделаем  */
+.admin_content .item_info_row .control_link { display: none; }                /* кнопочки не видны обычно          */
+.admin_content .item_info_row:hover .control_link { display: inline; }        /* пока не наведешь на них           */
+
+/* row edit popup content */
+.item_edit_table .mini { font-size: 0.6em; color: gray; }                      /* микротекст для подсказок */
+
+
+/*************************************************************************************************/
+/*** misc ****************************************************************************************/
+/*************************************************************************************************/
+
+/* <SELECT> group divider */
+.select_divider { font-weight: bold; background-color: #aaa; }
+
+
+
+
+
+
+
+
+

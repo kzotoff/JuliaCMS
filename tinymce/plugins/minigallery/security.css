@@ -1,0 +1,8 @@
+* { font-family:verdana,tahoma,arial,generic; font-size:14px; }
+.header { font-weight: bold; margin:14px 7px 7px 20px; display:block; }
+.sys_message { color:red; font-weight:bold; display:block; }
+#userlist { width:400px; }
+#accesslist { height:220px; width:400px; }
+span { display:block; }
+#userlistdiv { margin:10px 0px 10px 0px; }
+

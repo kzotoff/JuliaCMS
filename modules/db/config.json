@@ -1,0 +1,31 @@
+{
+	"comment"       : "db working",
+	"main_script"   : "func.php",
+	"class_name"    : "J_DB",
+	"css"           : [
+		"css/db.css",
+		"css/comments.css",
+		"css/confirm.css",
+		"css/editorial.css"
+	],
+	"js"            : [
+		"js/db.js",
+		"js/editorial.js",
+		"js/commentbox.js",
+		"js/confirmationbox.js"
+	],
+	"admin_caption" : "",
+	"admin_css"     : [],
+	"admin_js"      : [],
+	"disabled"      : false,
+	"break_after"   : false,
+	"config"        : {
+		"server_driver"   : "sqlite",
+		"server_host"     : "data/db.sqlite",
+		"server_login"    : "",
+		"server_password" : "",
+		"server_db_name"  : ""
+	}
+	
+
+}

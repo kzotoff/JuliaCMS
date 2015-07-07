@@ -1,0 +1,28 @@
+/* row-edit popup dialog */
+.edit-dialog-wrapper {
+	min-width           : 600px;
+
+}
+
+
+/* categories buttons */
+.edit-dialog-categories {
+	border-bottom       : 1px #ccc dashed;
+}
+
+.edit-dialog-categories input {
+	margin              : 0px 5px 10px 5px;
+}
+
+/* common formatting */
+.edit-dialog-form {
+	padding-top         : 1rem;
+}
+/* buttons at bottom */
+.edit-dialog-buttons {
+	text-align          : right;
+}
+
+.edit-dialog-buttons input {
+	margin              : 5px 5px 5px 5px;
+}

@@ -1,0 +1,13 @@
+{
+	"comment"       : "userpage search",
+	"main_script"   : "func.php",
+	"class_name"    : "J_Search",
+	"css"           : ["css.css"],
+	"js"            : [],
+	"admin_caption" : "",
+	"admin_css"     : [],
+	"admin_js"      : [],
+	"disabled"      : false,
+	"break_after"   : false
+
+}
