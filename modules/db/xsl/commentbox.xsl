@@ -12,7 +12,7 @@ standard comments list
 
 <xsl:template match="/comments">
 
-	<div class="commentbox-outer-wrapper" data-attach-handlers="commentsFormHandlers">
+	<div class="commentbox-outer-wrapper" data-attach-handlers="commentsFormHandlers" data-report-id="{report_id}">
 		<div class="commentbox-comment-list">
 			<a class="commentbox-print-icon" target="_blank" href="">
 				<img src="images/printer.gif" alt="print" />
@@ -28,7 +28,7 @@ standard comments list
 			<input type="hidden" name="row_id"    value="{main_object_id}" />
 
 			<div class="form-group">
-				<label for="commentbox-add-area">Добавить комментарий</label>
+				<label for="commentbox-add-area">Добавить комментарий:</label>
 				<textarea id="commentbox-add-area" class="form-control" wrap="physical" rows="6" name="comment_text"></textarea>
 			</div>
 			

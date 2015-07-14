@@ -155,6 +155,7 @@ Registry::Set('api_fields', array(
 		'out_edit'    => false,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_GUID,
+		'default'     => function() { return create_guid(); },
 		'readonly'    => true
 	),
 	'messages_subject' => array(
@@ -240,6 +241,7 @@ Registry::Set('api_fields', array(
 		'out_edit'    => false,
 		'width'       => 20,
 		'regexp'      => DB_REGEXP_GUID,
+		'default'     => function() { return create_guid(); },
 		'readonly'    => true
 	),
 	'mailfrom_caption' => array(
@@ -339,6 +341,7 @@ Registry::Set('api_fields', array(
 		'out_edit'    => false,
 		'width'       => 20,
 		'regexp'      => DB_REGEXP_GUID,
+		'default'     => function() { return create_guid(); },
 		'readonly'    => true
 	),
 	'templates_caption' => array(
@@ -389,6 +392,7 @@ Registry::Set('api_fields', array(
 		'out_edit'    => false,
 		'width'       => 100,
 		'regexp'      => DB_REGEXP_GUID,
+		'default'     => function() { return create_guid(); },
 		'readonly'    => true
 	),
 	'comments_object_id' => array(

@@ -17,7 +17,12 @@
 
 			<input type="hidden" name="ajaxproxy" value="db"          />
 			<input type="hidden" name="action"    value="call_api"    />
-			<input type="hidden" name="method"    value="record_save" />
+			<input type="hidden" name="method"    value="record_save">
+				<xsl:if test="new_record='1'">
+					<xsl:attribute name="value">record_insert</xsl:attribute>
+				</xsl:if>
+			</input>
+
 			<input type="hidden" name="report_id" value="{report_id}" />
 			<input type="hidden" name="row_id"    value="{row_id}"    />
 

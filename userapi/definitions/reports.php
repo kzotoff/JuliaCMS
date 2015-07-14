@@ -58,8 +58,8 @@ Registry::Set('api_reports', array(
 		'sql_update'    => 'update clients set first_name = :first_name, patronymic = :patronymic, second_name = :second_name, phone = :phone, email = :email, counter = :counter, address = :address, labels = :labels where id = :row_id',
 		
 		'context_menu' => array(
-			'add_record',
-			'edit_record',
+			'record_add',
+			'record_edit',
 			'record_delete_confirm',
 			'comments_dialog'
 		),
@@ -152,8 +152,8 @@ Registry::Set('api_reports', array(
 		'id_field'      => 'mailfrom_id',
 		'sql_update'    => 'update mailfrom set caption = :caption, from_addr = :from_addr, server = :server, port = :port, auth_type = :auth_type, ehlo = :ehlo, login = :login, password = :password 					 where id = :row_id',
 		'context_menu'  => array(
-			'add_record',
-			'edit_record',
+			'record_add',
+			'record_edit',
 			'record_delete_confirm',
 			'comments_dialog',
 		),
@@ -197,8 +197,8 @@ Registry::Set('api_reports', array(
 		),
 
 		'context_menu'  => array(
-			'add_record',
-			'edit_record',
+			'record_add',
+			'record_edit',
 			'comments_dialog',
 			'template_to_message_dialog',
 			'record_delete_confirm'
@@ -231,7 +231,7 @@ Registry::Set('api_reports', array(
 		'id_field'      => 'comments_id',
 
 		'context_menu'  => array(
-			'edit_record',
+			'record_edit',
 			'record_delete_confirm'
 		),
 

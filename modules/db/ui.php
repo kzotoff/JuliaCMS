@@ -119,11 +119,28 @@ class J_DB_UI {
 	}
 
 	/**
+	 * Creates dialog HTML for inserting a new record. really A wrapper for recordEdit, just adds a special flag
+	 *
+	 */
+	public static function recordAdd($input, &$return_metadata, $DB) {
+	
+		$params = $input;
+
+		// change API method
+		$params['method'] = 'record_edit';
+
+		// add a special flag
+		$params['new_record'] = true;
+
+		$result = J_DB::callAPI($params, $return_metadata, $DB);
+		return $result;
+	}
+	 
+	/**
 	 * Creates dialog HTML for editing (either creating or updating) the record
 	 *
 	 */
 	public static function recordEdit($input, &$return_metadata, $DB) {
-
 		$R = Registry::GetInstance();
 
 		if (!isset($R['api_reports'][$input['report_id']])) {
@@ -142,11 +159,8 @@ class J_DB_UI {
 		}
 		
 		// now call XML generator
-		$params = array(
-			'method'    => 'generate_editorial_xml',
-			'report_id' => $report_id,
-			'row_id'    => $input['row_id'],
-		);
+		$params = $input; 
+		$params['method'] = 'generate_editorial_xml';
 
 		// yeah we get data XML, now transform it
 		$xml = J_DB::callAPI($params, $return_metadata, $DB);

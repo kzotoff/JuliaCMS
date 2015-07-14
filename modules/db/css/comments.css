@@ -1,3 +1,6 @@
+.commentbox-outer-wrapper[data-report-id="4"] label[for="commentbox-add-area"] { display: none; }
+.commentbox-outer-wrapper[data-report-id="4"] textarea[id="commentbox-add-area"] { display: none; }
+
 /**************************************
 * comments popup box
 **************************************/

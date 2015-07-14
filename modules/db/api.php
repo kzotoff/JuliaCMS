@@ -125,7 +125,7 @@ class J_DB_API {
 		$query = $DB->query($sql);
 		$query->setFetchMode(PDO::FETCH_ASSOC);
 		$all_data_rows = $xml->createElement('data_set');
-		while ($data = $query->fetch()) {
+		while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
 			$data_row = $xml->createElement('data_row');
 			$data_row->setAttribute('id', $data[ $R['api_fields'][$report_config['id_field']]['field'] ]);
 			foreach($field_cache as $field) {
@@ -262,15 +262,24 @@ class J_DB_API {
 		}
 		$report_config = $R['api_reports'][$report_id];
 
+		// check if we are creating new record or editing the existing one
+		$new_record = get_array_value($input, 'new_record', false);
+
 		// get record data
-		
-		$lb = $DB->lb;
-		$rb = $DB->rb;
-		$sql = J_DB_Helpers::getReportMainSQL($report_id, $DB);
-		$sql = "select * from ({$sql}) {$lb}ext{$rb} where {$lb}{$R['api_fields'][$report_config['id_field']]['field']}{$rb}='{$input['row_id']}'";
-		$query = $DB->query($sql);		
-		$data = $query->fetch();
-		
+		if (!$new_record) {
+			$lb = $DB->lb;
+			$rb = $DB->rb;
+			$sql = J_DB_Helpers::getReportMainSQL($report_id, $DB);
+			$sql = "select * from ({$sql}) {$lb}ext{$rb} where {$lb}{$R['api_fields'][$report_config['id_field']]['field']}{$rb}='{$input['row_id']}'";
+			$query = $DB->query($sql);		
+			$data = $query->fetch(PDO::FETCH_ASSOC);
+		} else {
+			foreach ($report_config['fields'] as $part1 => $part2) {
+				$field = J_DB_Helpers::getFullFieldDefinition($part1, $part2);
+				$data[$field['field']] = J_DB_Helpers::getFieldDefaultValue($field);
+			}
+		}
+
 		// some init
 		$xml = new DOMDocument('1.0', 'utf-8');
 		$xml->preserveWhiteSpace = false;
@@ -280,6 +289,7 @@ class J_DB_API {
 		$dialog_root = $xml->createElement('edit-dialog');
 		$dialog_root->appendChild($xml->createElement('report_id'))->nodeValue = $report_id;
 		$dialog_root->appendChild($xml->createElement('row_id'))->nodeValue = $input['row_id'];
+		$dialog_root->appendChild($xml->createElement('new_record'))->nodeValue = get_array_value($input, 'new_record', false);
 		
 		// create fields list and compile categories list (will be added later)
 		
@@ -332,9 +342,7 @@ class J_DB_API {
 			$category_list_node->appendChild($xml->createElement('category'))->nodeValue = $edit_category;
 		}
 		
-		// some additional info
-
-
+		//
 		$return_metadata = array('type' => 'xml');
 		return $xml->saveXML($dialog_root);
 	
@@ -357,13 +365,16 @@ class J_DB_API {
 	 */
 	public static function generateCommentsXML($input, &$return_metadata, $DB) {
 
-		$object_id = $input['row_id'];
-
 		// check ID first
-		if ($object_id == '') {
+		if (($object_id = get_array_value($input, 'row_id', false)) === false) {
 			$return_metadata = array('status'=>'ERROR');
 			return 'bad row id';
 		}
+
+		if (($report_id = get_array_value($input, 'report_id', false)) === false) {
+			// TAG_TODO сделать автоматическое определение репорта
+			echo 'WARNING: NO REPORT ID';
+		} 
 
 		// object list. used for some special situations when comments must be retrieved for the
 		// selected object and some its related objects (i.e., all user's comments for all objects)
@@ -374,7 +385,7 @@ class J_DB_API {
 		$object_list_for_sql = "'".implode("','", $object_list)."'";
 		
 		// create SQL. note that it can be slightly different for some reports
-		// TAG_CRAZY убрать номер репорта
+		// TAG_TODO TAG_CRAZY убрать номер репорта
 		$sql = 'select * from ('.J_DB_Helpers::getReportMainSQL(5, $DB).') int where object_id in ('.$object_list_for_sql.') order by stamp desc';
 		
 		// create XML for all the comments
@@ -385,6 +396,7 @@ class J_DB_API {
 		$xml_root = $xml->createElement('comments');
 		$xml->appendChild($xml_root);
 		
+		$xml_root->appendChild($xml->createElement('report_id'))->nodeValue = $report_id;
 		$xml_root->appendChild($xml->createElement('main_object_id'))->nodeValue = $object_id;
 
 		$query = $DB->query($sql);
@@ -412,7 +424,7 @@ class J_DB_API {
 	 * @param array $input parameters
 	 * @param array $return metadata parameters
 	 * @param resource $DB database connection to use
-	 * @return mixed 'OK' or some error text
+	 * @return string 'OK' or some error text
 	 */
 	public static function commentsAdd($input, &$return_metadata, $DB) {
 
@@ -477,7 +489,7 @@ class J_DB_API {
 	 * @param array $input parameters
 	 * @param array $return metadata parameters
 	 * @param resource $DB database connection to use
-	 * @return mixed 'OK' or some error text
+	 * @return string 'OK' or some error text
 	 */
 	public static function commentsDelete($input, &$return_metadata, $DB) {
 		
@@ -499,6 +511,53 @@ class J_DB_API {
 	}
 
 	/**
+	 * inserts a record to a table
+	 *
+	 * @param array $input parameters
+	 * @param array $return metadata parameters
+	 * @param resource $DB database connection to use
+	 * @return string 'OK' or some error text
+	 */
+	public static function recordInsert($input, &$return_metadata, $DB) {
+
+		$new_record_id = create_guid();
+		if (!($report_config = get_array_value(Registry::Get('api_reports'), $input['report_id']))) {
+			$return_metadata['status'] = 'error';
+			return 'ERROR : no report with this ID';
+		}
+
+		$fields = '';       // fields list for INSERT statement
+		$placeholders = ''; // values placeholders string, yeah we use prepared statement
+		$values = array();  // values themselves
+		
+		foreach ($report_config['fields'] as $part1 => $part2) {
+			$field = J_DB_Helpers::getFullFieldDefinition($part1, $part2);
+			
+			// field skipped only if it's read-only AND no default value defined
+			if ((get_array_value($field, 'readonly', false) === true) && (!isset($field['default']))) { continue; }
+			
+			$fields       .= ($fields       > '' ? ', ' : '').$DB->lb.$field['table_field'].$DB->rb;
+			$placeholders .= ($placeholders > '' ? ', ' : '').':'.$field['table_field'];
+			
+			$value = get_array_value($input, 'edit_'.$field['field'], J_DB_Helpers::getFieldDefaultValue($field));
+			if (!preg_match('~^'.$field['regexp'].'$~smui', $value)) {
+				$value = '';
+			}
+			$values[$field['table_field']] = $value;
+		}
+		$sql = 'insert into '.$DB->lb.$report_config['main_table'].$DB->rb.' ('.$fields.') values ('.$placeholders.')';
+		$prepared = $DB->prepare($sql);
+		foreach ($values as $field => $value) {
+			$prepared->bindValue(':'.$field, $value);
+		}
+		$prepared->execute();
+
+		$return_metadata['type']    = 'command';
+		$return_metadata['command'] = 'reload';
+		return 'OK';
+	}
+
+	/**
 	 * Adds an empty record to a table
 	 * TAG_TODO: implement field default values in the field descriptions
 	 * TAG_TODO: add $DB->lb usage
@@ -507,9 +566,9 @@ class J_DB_API {
 	 * @param array $input parameters
 	 * @param array $return metadata parameters
 	 * @param resource $DB database connection to use
-	 * @return mixed 'OK' or some error text
+	 * @return string 'OK' or some error text
 	 */
-	public static function addEmptyRecord($input, &$return_metadata, $DB) {
+	public static function recordAddEmpty($input, &$return_metadata, $DB) {
 
 		$new_record_id = create_guid();
 		if (!($report_config = get_array_value(Registry::Get('api_reports'), $input['report_id']))) {
@@ -520,11 +579,11 @@ class J_DB_API {
 		switch($input['report_id']) {
 			case '1':
 					
-				foreach ($report_config['fields'] as $part1 => $part2) {
-					$default = J_DB_Helpers::getFieldDefaultValue( J_DB_Helpers::getFullFieldDefinition($part1, $part2) );				
-				}
-				$return_metadata['status'] = 'error';
-				return $t;
+//				foreach ($report_config['fields'] as $part1 => $part2) {
+//					$default = J_DB_Helpers::getFieldDefaultValue( J_DB_Helpers::getFullFieldDefinition($part1, $part2) );				
+//				}
+//				$return_metadata['status'] = 'error';
+//				return $t;
 				$sql = 'insert into clients (id, first_name) values (\''.$new_record_id.'\', \'new client\')';
 				break;
 			case '3':
@@ -547,7 +606,7 @@ class J_DB_API {
 	 * @param array $input parameters
 	 * @param array $return metadata parameters
 	 * @param resource $DB database connection to use
-	 * @return mixed 'OK' or some error text
+	 * @return string 'OK' or some error text
 	 */
 	public static function recordSave($input, &$return_metadata, $DB) {
 
@@ -608,7 +667,7 @@ class J_DB_API {
 	 * @param array $input parameters
 	 * @param array $return metadata parameters
 	 * @param resource $DB database connection to use
-	 * @return mixed 'OK' or some error text
+	 * @return string 'OK' or some error text
 	 */
 	public static function recordDelete($input, &$return_metadata, $DB) {
 

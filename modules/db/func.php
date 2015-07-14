@@ -66,17 +66,24 @@ class J_DB extends JuliaCMSModule {
 		),
 	
 		// add an empty record (no questions)
-		'add_record' => array(
+		'record_add_empty' => array(
+			'caption'       => 'Вставить пустую запись',
+			'image'         => 'images/module_db/blank.png',
+			'api'           => 'record_add_empty'
+		),
+	
+		// add an empty record (no questions)
+		'record_add' => array(
 			'caption'       => 'Новая запись',
 			'image'         => 'images/module_db/blank.png',
-			'api'           => 'add_empty_record'
+			'api'           => 'record_add'
 		),
 	
 		// show edit dialog
-		'edit_record' => array(
+		'record_edit' => array(
 			'caption'       => 'Редактировать',
 			'image'         => 'images/module_db/pencil.png',
-			'api'           => 'edit_this_record'
+			'api'           => 'record_edit'
 		),
 
 		// edit a single value in dialog
@@ -115,8 +122,9 @@ class J_DB extends JuliaCMSModule {
 	 */
 	private static $methods = array(
 		'get_report_as_xml'          => array('class' => 'J_DB_API',  'method' => 'generateTableXML'),
-		'add_empty_record'           => array('class' => 'J_DB_API',  'method' => 'addEmptyRecord'),
-		'edit_this_record'           => array('class' => 'J_DB_UI',   'method' => 'recordEdit'),
+		'record_add_empty'           => array('class' => 'J_DB_API',  'method' => 'recordAddEmpty'),
+		'record_add'                 => array('class' => 'J_DB_UI',   'method' => 'recordAdd'),
+		'record_edit'                => array('class' => 'J_DB_UI',   'method' => 'recordEdit'),
 		'generate_editorial_xml'     => array('class' => 'J_DB_API',  'method' => 'generateEditorialXML'),
 		'generate_comments_xml'      => array('class' => 'J_DB_API',  'method' => 'generateCommentsXML'),
 		'comments_dialog'            => array('class' => 'J_DB_UI',   'method' => 'commentsDialog'),
@@ -124,10 +132,11 @@ class J_DB extends JuliaCMSModule {
 		'comments_delete'            => array('class' => 'J_DB_API',  'method' => 'commentsDelete'),
 		'record_delete_confirm'      => array('class' => 'J_DB_UI',   'method' => 'recordDeleteConfirm'),
 		'record_delete'              => array('class' => 'J_DB_API',  'method' => 'recordDelete'),
+		'record_insert'              => array('class' => 'J_DB_API',  'method' => 'recordInsert'),
 		'record_save'                => array('class' => 'J_DB_API',  'method' => 'recordSave'),
 		'template_to_message_dialog' => array('class' => 'UserLogic', 'method' => 'templateToMessageDialog'),
 		'template_to_messages'       => array('class' => 'UserLogic', 'method' => 'templateToMessages'),
-		'send_outbox_messages'       => array('class' => 'UserLogic', 'method' => 'messagesSend')
+		'send_outbox_messages'       => array('class' => 'UserLogic', 'method' => 'messagesSend'),
 
 	);
 	
@@ -178,8 +187,7 @@ class J_DB extends JuliaCMSModule {
 		$redirect_target = false;
 
 /*
-		TAG_TODO why calling API at request parser?
-
+		// TAG_TODO why calling API at request parser?
 
 		// add field filters if report specified
 		if (isset($merged_post_get['report_id']) && isset($this->R['api_reports'][$merged_post_get['report_id']])) {
@@ -303,7 +311,6 @@ class J_DB extends JuliaCMSModule {
 	 *
 	 */
 	public function callAPI($input, &$return_metadata, $DB = false) {
-
 		// start with empty metadata
 		$return_metadata = array();
 
@@ -343,7 +350,6 @@ class J_DB extends JuliaCMSModule {
 			$method_method = $method['method'];
 
 			// all OK and we can call user API
-
 			$result = $method_class::$method_method($input, $return_metadata, $DB ?: $this->DB);
 			
 		} while (false);
