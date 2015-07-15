@@ -57,18 +57,22 @@ class J_DB_API {
 		$R = Registry::GetInstance();
 
 		// check input
-		if (!isset($input['report_id'])) {
-			$return_metadata['status'] = 'ERROR';
-			return 'no ID specified';
-		}
-		$report_id = $input['report_id'];
+		if (isset($input['config'])) {
+			$report_id = '*** inline report definition ***';
+			$report_config = $input['config'];
+		} else {
+			if (!isset($input['report_id'])) {
+				$return_metadata['status'] = 'ERROR';
+				return 'no ID specified';
+			}
+			$report_id = $input['report_id'];
 
-		if (!isset($R['api_reports'][$report_id])) {
-			$return_metadata['status'] = 'ERROR';
-			return 'no report config for ID specified ('.$report_id.')';
+			if (!isset($R['api_reports'][$report_id])) {
+				$return_metadata['status'] = 'ERROR';
+				return 'no report config for ID specified ('.$report_id.')';
+			}
+			$report_config = $R['api_reports'][$report_id];
 		}
-		$report_config = $R['api_reports'][$report_id];
-
 		// new datablock ID
 		$block_id = create_guid();
 
@@ -100,7 +104,7 @@ class J_DB_API {
 
 		foreach($report_config['fields'] as $field_part_1 => $field_part_2) {
 
-			$field = J_DB_Helpers::getFullFieldDefinition($field_part_1,$field_part_2);
+			$field = J_DB_Helpers::getFullFieldDefinition($field_part_1, $field_part_2);
 
 			if (get_array_value($field, 'out_table', true) === true) {
 
@@ -121,7 +125,7 @@ class J_DB_API {
 		$report_root->appendChild($field_captions);
 
 		// report data content
-		$sql = J_DB_Helpers::getReportMainSQL($report_id, $DB);
+		$sql = J_DB_Helpers::getReportMainSQL($report_config, $DB);
 		$query = $DB->query($sql);
 		$query->setFetchMode(PDO::FETCH_ASSOC);
 		$all_data_rows = $xml->createElement('data_set');
@@ -129,12 +133,12 @@ class J_DB_API {
 			$data_row = $xml->createElement('data_row');
 			$data_row->setAttribute('id', $data[ $R['api_fields'][$report_config['id_field']]['field'] ]);
 			foreach($field_cache as $field) {
-				if (!$field['out']) continue;
-
-				$data_cell = $xml->createElement('data');
-				$data_cell->setAttribute('field', $field['field']);
-				$data_cell->nodeValue = $data[$field['field']];
-				$data_row->appendChild($data_cell);
+				if (get_array_value($field, 'out_table', true)) {
+					$data_cell = $xml->createElement('data');
+					$data_cell->setAttribute('field', $field['field']);
+					$data_cell->nodeValue = $data[$field['field']];
+					$data_row->appendChild($data_cell);
+				}
 			}
 			$all_data_rows->appendChild($data_row);
 		}
@@ -238,7 +242,25 @@ class J_DB_API {
 	 *   data   : field values to use
 	 *
 	 * XML sample:
-	 * TAG_TODO
+	 * <edit-dialog>
+	 * 	<report_id>1</report_id>
+	 * 	<row_id>9A370D0A-8883-4E58-9605-9152D479A208</row_id>
+	 * 	<new_record></new_record>
+	 * 	<fields>
+	 * 		<field field_name="first_name">
+	 * 			<caption>Имя</caption>
+	 * 			<value><![CDATA[Оз]]></value>
+	 * 			<type>edit</type>
+	 * 			<categories>
+	 * 				<category>common</category>
+	 * 			</categories>
+	 * 		</field>
+	 * 		...
+	 * 	<categories>
+	 * 		<category>common</category>
+	 * 		...
+	 * 	</categories>
+	 * </edit-dialog>	
 	 *
 	 * @param array $input parameters
 	 * @param array $return metadata parameters
@@ -338,6 +360,12 @@ class J_DB_API {
 		$category_list_node = $xml->createElement('categories'); // TAG_TODO возможно ли стащить в одну строку?
 		$dialog_root->appendChild($category_list_node);
 		
+		// add "all" selector" if at least one category exists
+		if (count($category_list) > 0) {
+			$select_all_node = $xml->createElement('category');
+			$select_all_node->setAttribute('all', 'all');
+			$category_list_node->appendChild($select_all_node)->nodeValue = 'all';
+		}
 		foreach ($category_list as $edit_category) {
 			$category_list_node->appendChild($xml->createElement('category'))->nodeValue = $edit_category;
 		}
@@ -385,8 +413,7 @@ class J_DB_API {
 		$object_list_for_sql = "'".implode("','", $object_list)."'";
 		
 		// create SQL. note that it can be slightly different for some reports
-		// TAG_TODO TAG_CRAZY убрать номер репорта
-		$sql = 'select * from ('.J_DB_Helpers::getReportMainSQL(5, $DB).') int where object_id in ('.$object_list_for_sql.') order by stamp desc';
+		$sql = 'select * from ('.J_DB_Helpers::getReportMainSQL('report_comments', $DB).') int where object_id in ('.$object_list_for_sql.') order by stamp desc';
 		
 		// create XML for all the comments
 		$xml = new DOMDocument('1.0', 'utf-8');

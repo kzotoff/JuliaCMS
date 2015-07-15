@@ -8,7 +8,11 @@
 		<xsl:if test="categories/category">
 			<div class="edit-dialog-categories">
 				<xsl:for-each select="categories/category">
-					<input type="button" class="btn btn-default" data-action="show-category" data-category="{.}" value="{.}" />
+					<input type="button" class="btn btn-default" data-action="show-category" data-category="{.}" value="{.}">
+						<xsl:if test="./@all='all'">
+							<xsl:attribute name="data-show-all">yes</xsl:attribute>
+						</xsl:if>
+					</input>
 				</xsl:for-each>
 			</div>
 		</xsl:if>
@@ -28,6 +32,11 @@
 
 			<xsl:for-each select="fields/field">
 				<div class="form-group">
+					<xsl:attribute name="data-categories">
+						<xsl:for-each select="categories/category">
+							<xsl:text>/</xsl:text><xsl:value-of select="." /><xsl:text>/</xsl:text>
+						</xsl:for-each>
+					</xsl:attribute>
 					<label class="control-label col-sm-4" for="edit_{@field_name}"><xsl:value-of select="caption" /></label>
 					<xsl:choose>
 						<xsl:when test="type='select'">

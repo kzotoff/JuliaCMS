@@ -109,15 +109,19 @@ class J_DB_Helpers {
 	 * Creates SELECT statement based on report and its field definitions. No filters and security
 	 * limitations are applied here
 	 *
+	 * @param mixed $report_id_or_def report ID to generate SQL for, or direct report definition
 	 * @param resource $DB database connection (needed to get brackets samples)
-	 * @param string $report_id report to generate SQL for
 	 * @return string SQL statement
 	 */
-	public static function getReportMainSQL($report_id, $DB) {
+	public static function getReportMainSQL($report_id_or_def, $DB) {
 
 		$R = Registry::GetInstance();
 
-		$report = $R['api_reports'][$report_id];
+		if (is_array($report_id_or_def)) {
+			$report = $report_id_or_def;
+		} else {
+			$report = $R['api_reports'][$report_id_or_def];
+		}
 
 		// always use manual SQL if "use auto" is not set
 		if (($sql = get_array_value($report, 'sql_select', false)) >'') {

@@ -16,7 +16,7 @@ item sample (all description elements are required. unpredictable behavior will 
 		'width'       => 100,                      display column width
 		'regexp'      => DB_REGEXP_INT,            field value must match this (eihter while updatind or validation)
 		'comment'     => 'Идентификатор'           human-readable field description
-		'categories'  => array('common', ...)      categiries to place field at row-edit dialog
+		'categories'  => array('personal', ...)    categories to place field at row-edit dialog
 		'readonly'    => true                      means the field cannot be changed directly through common editorial dialog
 	)
 
@@ -55,7 +55,7 @@ Registry::Set('api_fields', array(
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_GUID,
 		'default'     => function() { return create_guid(); },
-		'readonly'    => true
+		'readonly'    => true,
 	),
 	'clients_first_name' => array(
 		'table'       => 'clients',
@@ -63,10 +63,10 @@ Registry::Set('api_fields', array(
 		'field'       => 'first_name',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Имя',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT,
-		'default'     => 'Новый'
+		'default'     => 'Новый',
+		'categories'  => array(),
 	),
 	'clients_patronymic' => array(
 		'table'       => 'clients',
@@ -74,9 +74,9 @@ Registry::Set('api_fields', array(
 		'field'       => 'patronymic',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Отчество',
-		'out'         => true,
 		'width'       => 200,
-		'regexp'      => DB_REGEXP_TEXT
+		'regexp'      => DB_REGEXP_TEXT,
+		'categories'  => array(),
 	),
 	'clients_second_name' => array(
 		'table'       => 'clients',
@@ -84,9 +84,9 @@ Registry::Set('api_fields', array(
 		'field'       => 'second_name',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Фамилия',
-		'out'         => true,
 		'width'       => 200,
-		'regexp'      => DB_REGEXP_TEXT
+		'categories'  => array(),
+		'regexp'      => DB_REGEXP_TEXT,
 	),
 	'clients_phone' => array(
 		'table'       => 'clients',
@@ -94,9 +94,9 @@ Registry::Set('api_fields', array(
 		'field'       => 'phone',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Телефон',
-		'out'         => true,
 		'width'       => 200,
-		'regexp'      => DB_REGEXP_PHONE
+		'regexp'      => DB_REGEXP_PHONE,
+		'categories'  => array(),
 	),
 	'clients_email' => array(
 		'table'       => 'clients',
@@ -104,9 +104,9 @@ Registry::Set('api_fields', array(
 		'field'       => 'email',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Электронная почта',
-		'out'         => true,
 		'width'       => 200,
-		'regexp'      => DB_REGEXP_EMAIL
+		'regexp'      => DB_REGEXP_EMAIL,
+		'categories'  => array(),
 	),
 	'clients_counter' => array(
 		'table'       => 'clients',
@@ -114,10 +114,9 @@ Registry::Set('api_fields', array(
 		'field'       => 'counter',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Номер счетчика',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_INT,
-		'categories'  => array('common', 'electric')
+		'categories'  => array()
 	),
 	'clients_address' => array(
 		'table'       => 'clients',
@@ -125,7 +124,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'address',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Адрес',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -135,7 +133,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'labels',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Метки',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -164,7 +161,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'subject',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'subject',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -174,7 +170,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'from',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'from',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_EMAIL,
 		'readonly'    => true
@@ -186,7 +181,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'to',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Кому',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_EMAIL		
 	),
@@ -196,7 +190,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'datetime',
 		'type'        => DB_FIELD_TYPE_REAL,
 		'caption'     => 'Время',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => "[0-9.:\-\s]+",
 		'readonly'    => true
@@ -207,7 +200,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'message',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Сообщение',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -217,7 +209,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'template',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Шаблон',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT,
 		'readonly'    => true
@@ -250,7 +241,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'caption',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Название',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -270,7 +260,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'server',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Адрес сервера',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_HOST
 	),
@@ -280,7 +269,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'port',
 		'type'        => DB_FIELD_TYPE_INT,
 		'caption'     => 'Порт',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_INT
 	),
@@ -290,7 +278,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'auth_type',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Тип авторизации',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT_STRICT
 	),
@@ -300,7 +287,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'ehlo',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'EHLO',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => "[a-zA-Z0-9.\-@]+"
 	),
@@ -310,7 +296,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'login',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Логин',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT_STRICT
 	),
@@ -320,7 +305,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'password',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Пароль',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -350,7 +334,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'caption',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Заголовок',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -371,7 +354,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'attachments',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Приложенные файлы',
-		'out'         => true,
 		'width'       => 200,
 		'regexp'      => DB_REGEXP_TEXT,
 		'readonly'    => true
@@ -401,7 +383,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'object_id',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Объект',
-		'out'         => true,
 		'width'       => 100,
 		'regexp'      => DB_REGEXP_GUID,
 		'readonly'    => true
@@ -412,7 +393,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'user_id',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Пользователь',
-		'out'         => true,
 		'width'       => 100,
 		'regexp'      => DB_REGEXP_TEXT,
 		'readonly'    => true
@@ -423,7 +403,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'stamp',
 		'type'        => DB_FIELD_TYPE_DATETIME,
 		'caption'     => 'Время',
-		'out'         => true,
 		'width'       => 150,
 		'regexp'      => DB_REGEXP_DATETIME,
 		'readonly'    => true
@@ -434,7 +413,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'comment_text',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Комментарий',
-		'out'         => true,
 		'width'       => 400,
 		'regexp'      => DB_REGEXP_TEXT
 	),
@@ -444,7 +422,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'attached_name',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Приложенный файл',
-		'out'         => true,
 		'width'       => 100,
 		'regexp'      => DB_REGEXP_FILENAME,
 		'readonly'    => true
@@ -455,7 +432,6 @@ Registry::Set('api_fields', array(
 		'field'       => 'comment_state',
 		'type'        => DB_FIELD_TYPE_TEXT,
 		'caption'     => 'Состояние',
-		'out'         => true,
 		'width'       => 100,
 		'regexp'      => DB_REGEXP_TEXT
 	)

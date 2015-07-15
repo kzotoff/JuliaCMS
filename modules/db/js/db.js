@@ -214,12 +214,12 @@ callAPI = function(methodName, override) {
 				
 				// if HTML has arrived, show it as dialog and attach handlers
 				case 'html':
-					var newPopupBox = $('<div class="api_html_result"></div>');
+					var newPopupBox = $('<div class="api-html-result"></div>');
 					newPopupBox
 						.html(result)
 						.dialog({
 							modal : true,
-							close : function() { $('.api_html_result').remove(); },
+							close : function() { $('.api-html-result').remove(); },
 							width : 'auto'
 						});
 

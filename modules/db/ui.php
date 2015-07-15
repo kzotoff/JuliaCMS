@@ -12,7 +12,8 @@ class J_DB_UI {
 	 * Creates HTML for data-table view
 	 *
 	 * options supported (case sensitive):
-	 *     id  : report ID to generate
+	 *     id     : report ID to generate
+	 *     config : direct report config
 	 *
 	 * @param resource $DB database to use
 	 * @param array $params report identifier
@@ -24,13 +25,14 @@ class J_DB_UI {
 		$R = Registry::GetInstance();
 
 		// check input
-		if (!isset($params['id'])) {
-			return '<b>[JuliaCMS][db module] warning</b>: no ID specified';
+		if (!isset($params['id']) && !isset($params['config'])) {
+			return '<b>[JuliaCMS][db module] warning</b>: no report ID or config specified';
 		}
-		$report_id = $params['id'];
-
-		if (!isset($R['api_reports'][$report_id])) {
-			return '<b>[JuliaCMS][db module] warning</b>: no report config for this ID ('.$report_id.')';
+		
+		if (isset($params['id'])) {
+			if (!isset($R['api_reports'][$params['id']])) {
+				return '<b>[JuliaCMS][db module] warning</b>: no report config for this ID ('.$params['id'].')';
+			}
 		}
 
 		// set method to call and call it, yeah!

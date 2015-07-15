@@ -35,8 +35,9 @@ class UserLogic {
 		$R = Registry::GetInstance();
 
 		// client list as table with checkboxes
+/*		
 		$client_list = '';
-		$sql = J_DB_Helpers::getReportMainSQL(1, $DB); // TAG_CRAZY TAG_TODO
+		$sql = J_DB_Helpers::getReportMainSQL(1, $DB);
 		$query = $DB->query($sql);
 		while ($data = $query->fetch()) {
 			$client_list .= '<tr>';
@@ -48,6 +49,29 @@ class UserLogic {
 			$client_list .= '</tr>';
 		}
 		$client_list = '<table id="special_addresses" class="sender_table">'.$client_list.'</table>';
+*/
+
+		$merge_with = array(
+			'first_name' => array('width'=>120),
+			'email' => array('width'=>200),
+			'address' => array('width'=>200),
+			'labels' => array('width'=>150),
+			'comments' => array('width'=>300),
+			'second_name' => array('out_table'=>false),
+			'patronymic' => array('out_table'=>false),
+			'phone' => array('out_table'=>false),
+			'counter' => array('out_table'=>false),
+		);
+		// we will use direct report definition cloned from "clients" report, but some fields will be hidden
+		$report_def = $R['api_reports']['report_clients'];
+
+		$report_def['fields'] = array();
+		foreach ($R['api_reports']['report_clients']['fields'] as $index1 => $index2) {
+			$more_field = J_DB_Helpers::getFullFieldDefinition($index1, $index2);
+			$more_field = array_merge($more_field, get_array_value($merge_with, $more_field['field'], array()));
+			array_push($report_def['fields'], $more_field);
+		}
+		$client_list = J_DB_UI::generateTable(array('config'=>$report_def), $DB);
 
 		// "from" address selection dropdown
 		$from_list = '';
