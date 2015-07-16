@@ -35,30 +35,14 @@ class UserLogic {
 		$R = Registry::GetInstance();
 
 		// client list as table with checkboxes
-/*		
-		$client_list = '';
-		$sql = J_DB_Helpers::getReportMainSQL(1, $DB);
-		$query = $DB->query($sql);
-		while ($data = $query->fetch()) {
-			$client_list .= '<tr>';
-			$client_list .= '<td><input type="checkbox" name="message_recipients[]" value="'.$data['id'].'" class="target_checker" /></td>';
-			$client_list .= '<td>'.$data['first_name'].' '.$data['patronymic'].' '.$data['second_name'].'</td>';
-			$client_list .= '<td>'.$data['email'].'</td>';
-			$client_list .= '<td>'.$data['labels'].'</td>';
-			$client_list .= '<td>'.$data['comments'].'</td>';
-			$client_list .= '</tr>';
-		}
-		$client_list = '<table id="special_addresses" class="sender_table">'.$client_list.'</table>';
-*/
-
 		$merge_with = array(
 			'first_name' => array('width'=>120),
 			'email' => array('width'=>200),
 			'address' => array('width'=>200),
 			'labels' => array('width'=>150),
 			'comments' => array('width'=>300),
-			'second_name' => array('out_table'=>false),
-			'patronymic' => array('out_table'=>false),
+			'second_name' => array('width'=>120),
+			'patronymic' => array('width'=>120),
 			'phone' => array('out_table'=>false),
 			'counter' => array('out_table'=>false),
 		);
@@ -71,7 +55,7 @@ class UserLogic {
 			$more_field = array_merge($more_field, get_array_value($merge_with, $more_field['field'], array()));
 			array_push($report_def['fields'], $more_field);
 		}
-		$client_list = J_DB_UI::generateTable(array('config'=>$report_def), $DB);
+		$client_list = J_DB_UI::generateTable(array('config'=>$report_def, 'checkbox'=>array('class'=>'target_checker', 'name'=>'message_recipients[]')), $DB);
 
 		// "from" address selection dropdown
 		$from_list = '';

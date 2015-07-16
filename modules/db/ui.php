@@ -11,29 +11,18 @@ class J_DB_UI {
 	/*
 	 * Creates HTML for data-table view
 	 *
-	 * options supported (case sensitive):
+	 * options supported (case sensitive)(no checks performed, just translated to XML generator)
 	 *     id     : report ID to generate
 	 *     config : direct report config
 	 *
-	 * @param resource $DB database to use
 	 * @param array $params report identifier
+	 * @param resource $DB database to use
 	 * @return string report table HTML markup
 	 *
 	 */
 	public static function generateTable($params, $DB) {
 
 		$R = Registry::GetInstance();
-
-		// check input
-		if (!isset($params['id']) && !isset($params['config'])) {
-			return '<b>[JuliaCMS][db module] warning</b>: no report ID or config specified';
-		}
-		
-		if (isset($params['id'])) {
-			if (!isset($R['api_reports'][$params['id']])) {
-				return '<b>[JuliaCMS][db module] warning</b>: no report config for this ID ('.$params['id'].')';
-			}
-		}
 
 		// set method to call and call it, yeah!
 		$params['method'] = 'get_report_as_xml';
@@ -44,7 +33,6 @@ class J_DB_UI {
 		} else {
 			$result = '<b>[JuliaCMS][db module] error</b> : '.$result;
 		}
-
 		return $result;
 	}
 

@@ -1,4 +1,4 @@
-<form method="post" role="form" class="form-vertical">
+<form method="post" role="form" class="form-vertical" data-attach-handlers="templateToMessageFormHandlers">
 
 	<input type="hidden" name="ajaxproxy" value="db"                   />
 	<input type="hidden" name="action"    value="call_api"             />
@@ -18,8 +18,23 @@
 		<input type="text" class="form-control" name="special_subject" id="special_subject" value="%s" />
 	</div>
 
-	<div class="form-group">
-		<label for="special_addresses">Выберите получателей:</label>
+	<div class="form-group recipient-list">
+		<label for="special_addresses">
+		<span>Выберите получателей:</span>
+		<span class="recipient-list-checkboxes">
+			<label class="btn btn-info btn-xs" for="recipient-list-select-ves">Веськово</label>   <input data-filter="Веськово([^\-]|$)" type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-ves" />
+			<label class="btn btn-info btn-xs" for="recipient-list-select-ve2">Веськово-2</label> <input data-filter="Веськово-2"        type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-ve2" />
+			<label class="btn btn-info btn-xs" for="recipient-list-select-zal">Залесье</label>    <input data-filter="Залесье"           type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-zal" />
+			<label class="btn btn-info btn-xs" for="recipient-list-select-cot">Котеджио</label>   <input data-filter="Котеджио"          type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-cot" />
+		</span>
+		<span class="recipient-list-search" class="form-inline">
+			<span class="form-group">
+				<label for="recipient-search-box">Поиск:</label>
+				<input class="form-control" type="text" id="recipient-search-box" />
+			<span>
+		<span>
+		
+		</label>
 		%s
 	</div>
 

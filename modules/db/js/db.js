@@ -10,7 +10,6 @@ $(function() {
 	}
 
 	// TAG_TODO про эту хрень тоже в мануал написать
-	// global userland functions storage
 	
 	// declare init mouse coordinates
 	mouseX = 100;

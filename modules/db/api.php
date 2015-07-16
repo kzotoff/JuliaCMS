@@ -14,7 +14,10 @@ class J_DB_API {
 	/**
 	 * generates XML data for the report specified
 	 *
-	 * params[id] : report identifier to generate XML for
+	 * parameters supported:
+	 *     id       : report identifier to generate XML for
+	 *     config   : direct report configuration
+	 *     checkbox : array with checkbox description. "class" and "name" elements are supported
 	 *
 	 * XML structure:
 	 * <report>
@@ -69,13 +72,17 @@ class J_DB_API {
 
 			if (!isset($R['api_reports'][$report_id])) {
 				$return_metadata['status'] = 'ERROR';
-				return 'no report config for ID specified ('.$report_id.')';
+				return 'no report config for this ID ('.$report_id.')';
 			}
 			$report_config = $R['api_reports'][$report_id];
 		}
+		
+		// checkbox description
+		$checkbox = get_array_value($input, 'checkbox', false);
+		
 		// new datablock ID
 		$block_id = create_guid();
-
+		
 		// some init
 		$xml = new DOMDocument('1.0', 'utf-8');
 		$xml->preserveWhiteSpace = false;
@@ -102,6 +109,22 @@ class J_DB_API {
 		$json['columns'] = array();
 		$field_cache = array();
 
+		// add checkbox head if requested
+		if ($checkbox != false) {
+			// column header info
+			$field_caption = $xml->createElement('field_caption');
+			$field_caption->setAttribute('special', 'checkbox');
+			$field_caption->setAttribute('width', '20');
+			$field_captions->appendChild($field_caption);
+			if (isset($checkbox['class'])) {
+				$field_caption->setAttribute('class', $checkbox['class']);
+			}
+			if (isset($checkbox['name'])) {
+				$field_caption->setAttribute('name', $checkbox['name']);
+			}
+			$field_captions->appendChild($field_caption);
+		}
+		
 		foreach($report_config['fields'] as $field_part_1 => $field_part_2) {
 
 			$field = J_DB_Helpers::getFullFieldDefinition($field_part_1, $field_part_2);
@@ -121,6 +144,7 @@ class J_DB_API {
 				// populate JSON source
 				$json['columns'][$field['field']]['width'] = $field['width'];
 			}
+
 		}
 		$report_root->appendChild($field_captions);
 
@@ -130,8 +154,25 @@ class J_DB_API {
 		$query->setFetchMode(PDO::FETCH_ASSOC);
 		$all_data_rows = $xml->createElement('data_set');
 		while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+		
+			// row element
 			$data_row = $xml->createElement('data_row');
 			$data_row->setAttribute('id', $data[ $R['api_fields'][$report_config['id_field']]['field'] ]);
+			
+			// checkbox, if requested
+			if ($checkbox != false) {
+				$data_cell = $xml->createElement('special');
+				$data_cell->setAttribute('value', $data[ $R['api_fields'][$report_config['id_field']]['field'] ]);
+				if (isset($checkbox['class'])) {
+					$data_cell->setAttribute('class', $checkbox['class']);
+				}
+				if (isset($checkbox['name'])) {
+					$data_cell->setAttribute('name', $checkbox['name']);
+				}
+				$data_row->appendChild($data_cell);
+			}
+			
+			// data fields
 			foreach($field_cache as $field) {
 				if (get_array_value($field, 'out_table', true)) {
 					$data_cell = $xml->createElement('data');
