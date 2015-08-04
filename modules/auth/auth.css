@@ -1,0 +1,17 @@
+/* login form */
+.login_form_wrapper { width: 400px; margin-left: auto; margin-right: auto; margin-top: 20%; }
+.login_form_wrapper .buttons { text-align: center; padding-top: 7px; }
+.login_form_wrapper .buttons input[type="submit"] { width: 12rem; }
+
+#login_messagebox { display: none; border-width: 1px; border-style: solid; border-radius: 3px; color: #333; font-size: 1.5em;  white-space: normal; }
+
+.login_messagebox_waiting { border-color: transparent; background-color: transparent; }
+.login_messagebox_success { background-color: #cfc; border-color: green; }
+.login_messagebox_error { background-color: #fcc; border-color: red; }
+
+/* change password form */
+.chpass_form_wrapper { width: 600px; margin-left: auto; margin-right: auto; margin-top: 12%; }
+.chpass_form_wrapper .buttons { text-align: center; padding-top: 7px; }
+.chpass_form_wrapper .buttons input[type="submit"] { width: 12rem; }
+
+#chpass_messagebox { display: none; border-width: 1px; border-style: solid; border-radius: 3px; color: #333; font-size: 1.5em;  white-space: normal; }

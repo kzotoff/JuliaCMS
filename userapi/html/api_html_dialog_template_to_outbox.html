@@ -1,0 +1,47 @@
+<form method="post" role="form" class="form-vertical" data-attach-handlers="templateToMessageFormHandlers" data-form-name="template-to-message-box">
+
+	<input type="hidden" name="ajaxproxy" value="db"                   />
+	<input type="hidden" name="action"    value="call_api"             />
+	<input type="hidden" name="method"    value="template_to_messages" />
+	<input type="hidden" name="report_id" value=""                     />
+	<input type="hidden" name="row_id"    value="%s"                   />
+
+	<div class="form-group">
+		<label for="special_input_from_addr">Как отправляем?</label>
+		<select class="form-control" name="special_input_from_addr" id="special_input_from_addr">
+		%s
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label for="special_subject">Тема:</label>
+		<input type="text" class="form-control" name="special_subject" id="special_subject" value="%s" />
+	</div>
+
+	<div class="form-group recipient-list">
+		<label for="special_addresses">
+		<span>Выберите получателей:</span>
+		<span class="recipient-list-checkboxes">
+			<label class="btn btn-info btn-xs" for="recipient-list-select-ves">Веськово</label>   <input data-filter="Веськово([^\-]|$)" type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-ves" />
+			<label class="btn btn-info btn-xs" for="recipient-list-select-ve2">Веськово-2</label> <input data-filter="Веськово-2"        type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-ve2" />
+			<label class="btn btn-info btn-xs" for="recipient-list-select-zal">Залесье</label>    <input data-filter="Залесье"           type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-zal" />
+			<label class="btn btn-info btn-xs" for="recipient-list-select-cot">Коттеджио</label>  <input data-filter="Коттеджио"         type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-cot" />
+			<label class="btn btn-info btn-xs" for="recipient-list-select-mal">Малиновка</label>  <input data-filter="Малиновка"         type="checkbox" class="btn btn-info btn-xs" id="recipient-list-select-mal" />
+		</span>
+		<span class="recipient-list-search" class="form-inline">
+			<span class="form-group">
+				<label for="recipient-search-box">Поиск:</label>
+				<input class="form-control" type="text" id="recipient-search-box" />
+			<span>
+		<span>
+		
+		</label>
+		%s
+	</div>
+
+	<div class="edit-dialog-buttons">
+		<input type="button" class="btn btn-primary" value="К отправке" data-button-action="form-submit" data-form-submit="template-to-message-box" />
+		<input type="button" class="btn btn-primary" value="Отмена"     data-button-action="form-cancel" />
+	</div>
+
+</form>

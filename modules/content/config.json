@@ -1,0 +1,17 @@
+{
+	"comment"       : "main content generator",
+	"main_script"   : "func.php",
+	"class_name"    : "J_Content",
+	"css"           : [],
+	"js"            : [],
+	"admin_caption" : "pages",
+	"admin_css"     : [],
+	"admin_js"      : ["admin.js"],
+	"disabled"      : false,
+	"break_after"   : false,
+	"config"        : {
+		"table"        : "pages",
+		"page_404"     : "data/404.html"
+	}
+
+}

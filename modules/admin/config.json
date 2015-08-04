@@ -1,0 +1,13 @@
+{
+	"comment"       : "admin pseudo module",
+	"main_script"   : "func.php",
+	"class_name"    : "J_Admin",
+	"css"           : ["admin.css"],
+	"js"            : ["admin.js"],
+	"admin_caption" : "",
+	"admin_css"     : [],
+	"admin_js"      : [],
+	"disabled"      : false,
+	"break_after"   : false
+
+}

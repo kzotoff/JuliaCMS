@@ -1,0 +1,16 @@
+tables:
+	files:
+		id - object GUID
+		name - filename as saved for files, alias for folders
+			alias is specified by user, numeric by order if not set
+		type - 1 for folders, 0 for files
+		stamp - creation timestamp
+		parent_id - parent folder GUID
+		caption - human-readable caption
+		keywords - obvious!
+		description - yeah, it is
+		public -
+			0 means visible for everyone
+			1 for ACL-base access
+			2 for direct link only (not listed anywhere)
+		

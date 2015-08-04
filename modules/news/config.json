@@ -1,0 +1,15 @@
+{
+	"comment"       : "news module",
+	"main_script"   : "func.php",
+	"class_name"    : "J_News",
+	"css"           : [],
+	"js"            : [],
+	"admin_caption" : "news",
+	"admin_css"     : ["admin.css"],
+	"admin_js"      : ["admin.js"],
+	"disabled"      : false,
+	"break_after"   : false,
+	"config"        : {
+		"table" : "news"
+	}
+}
