@@ -205,6 +205,14 @@ class UserLogic {
 	}
 	
 	/**
+	 * Deletes all messages
+	 *
+	 */
+	public static function messagesDeleteAll($input, &$return_metadata, $DB) {
+		$DB->exec("delete from messages");
+	}
+
+	/**
 	 * Sends message from the outbox
 	 *
 	 */
@@ -272,10 +280,11 @@ class UserLogic {
 				$attachments_array
 			);
 
-//			// delete if sent successfully
-//			if ($send_result) {
-//				$DB->exec('delete from messages where id='.$data['id']);
-//			}
+			// delete if sent successfully
+			if ($send_result) {
+				logthis('deleting message with ID '.$data['id']);
+				$DB->exec("delete from messages where id='{$data['id']}'");
+			}
 
 		}
 

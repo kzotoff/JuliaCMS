@@ -90,7 +90,8 @@ class J_News extends JuliaCMSModule {
 
 		$res = '';
 		// запрашиваем новости
-		$q = $DB->query('select * from '.$this->CONFIG['table'].' where \' \'||streams||\' \' like \'% '.$stream.' %\' order by stamp desc '.($count >= 0 ? 'limit 0,'.$count : ''));
+		$limit = ($count >= 0 ? 'limit 0,'.$count : '');
+		$q = $DB->query("select * from `{$this->CONFIG['table']}` where ' '||streams||' ' like '% $stream %' or trim(streams) = '' order by stamp desc $limit");
 
 		// по одной читаем, впихиваем в шаблончик и прицепляем к цельному блоку
 		while ($row = $q->fetch(PDO::FETCH_ASSOC)) {

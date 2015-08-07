@@ -137,6 +137,7 @@ class J_DB extends JuliaCMSModule {
 		'template_to_message_dialog' => array('class' => 'UserLogic', 'method' => 'templateToMessageDialog'),
 		'template_to_messages'       => array('class' => 'UserLogic', 'method' => 'templateToMessages'),
 		'send_outbox_messages'       => array('class' => 'UserLogic', 'method' => 'messagesSend'),
+		'messages_delete_all'        => array('class' => 'UserLogic', 'method' => 'messagesDeleteAll'),
 
 	);
 	

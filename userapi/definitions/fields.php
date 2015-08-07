@@ -31,12 +31,12 @@ define('DB_FIELD_TYPE_BLOB', 20);
 
 define('DB_REGEXP_INT'         , '[0-9]+');
 define('DB_REGEXP_GUID'        , '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}');
-define('DB_REGEXP_TEXT'        , '[a-zA-Zа-яА-Я\s.,()0-9<>\/!"]+');
+define('DB_REGEXP_TEXT'        , '[a-zA-Zа-яА-Я\s.,()0-9<>\/!"\-]+');
 define('DB_REGEXP_EMAIL'       , '[a-zA-Z0-9.\-]+@[a-zA-Z0-9.\-]+');
 define('DB_REGEXP_PHONE'       , '[()0-9.,\s\-+]+');
 define('DB_REGEXP_FILENAME'    , '[a-zA-Zа-яА-Я0-9\-.,\s]+');
 define('DB_REGEXP_HOST'        , '[a-zA-Z0-9.\-]+');
-define('DB_REGEXP_TEXT_STRICT' , '[a-zA-Zа-яА-Я\s.,()0-9]+');
+define('DB_REGEXP_TEXT_STRICT' , '[a-zA-Zа-яА-Я\s.,()0-9\-]+');
 define('DB_REGEXP_DATETIME'    , '[0-9\-/:.\s]+');
 
 Registry::Set('api_fields', array(
