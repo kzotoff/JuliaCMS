@@ -9,6 +9,6 @@
 	<admin_caption>sms</admin_caption>
 	<admin_css>sms</admin_css>
 	<config caption="Настройка:">
-		<api_id caption="API ID"></api_id>
+		<api_id caption="API ID">get it from sms.ru</api_id>
 	</config>
 </JuliaCMS_module_definition>

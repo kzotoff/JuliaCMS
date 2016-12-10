@@ -10,5 +10,4 @@
 	<config caption="Настройка:">
 		<table_menu caption="Таблица с элементами">menu</table_menu>
 	</config>
-
 </JuliaCMS_module_definition>

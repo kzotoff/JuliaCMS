@@ -7,7 +7,7 @@
 	<css>auth.css</css>
 	<admin_caption>auth</admin_caption>
 	<config caption="Настройка:">
-		<require_login caption="Пароль обязателен">true</require_login>
+		<require_login caption="Пароль обязателен">false</require_login>
 		<session_username caption="Переменная сессии">module_auth_user_logged</session_username>
 		<database caption="Параметры БД">
 			<server_driver caption="Драйвер">sqlite</server_driver>
