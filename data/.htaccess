@@ -1,4 +1,0 @@
-php_value engine off
-
-Order deny,allow
-Deny from all

@@ -1,2 +1,0 @@
-# JuliaCMS
-Lightweight CMS
