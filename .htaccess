@@ -1,0 +1,39 @@
+DirectoryIndex index.php
+
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/javascript
+AddOutputFilterByType DEFLATE text/css
+
+<ifModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/javascript "access plus 2 weeks"
+</ifModule>
+
+RewriteEngine on
+RewriteBase /_git/JuliaCMS/
+
+RewriteCond %{REQUEST_URI} !index\.php$
+RewriteCond %{REQUEST_URI} !doc/.*\.php$
+RewriteCond %{REQUEST_URI} !\.tests.*$
+RewriteCond %{REQUEST_URI} !tinymce/plugins/minigallery/[^.]+\.php$
+RewriteCond %{REQUEST_URI} !tinymce/plugins/filelink/[^.]+\.php$
+RewriteRule ^.*\.php - [F]
+
+RewriteCond %{REQUEST_URI} !.*\.css$
+RewriteCond %{REQUEST_URI} !.*\.png$
+RewriteCond %{REQUEST_URI} !.*\.gif$
+RewriteCond %{REQUEST_URI} !.*\.jpg$
+RewriteCond %{REQUEST_URI} !.*\.ico$
+RewriteCond %{REQUEST_URI} !.*\.js$
+RewriteCond %{REQUEST_URI} !.*\.eot$
+RewriteCond %{REQUEST_URI} !.*\.swg$
+RewriteCond %{REQUEST_URI} !.*\.swf$
+RewriteCond %{REQUEST_URI} !.*\.ttf$
+RewriteCond %{REQUEST_URI} !.*\.woff$
+RewriteCond %{REQUEST_URI} !doc/.*$
+RewriteCond %{REQUEST_URI} !userfiles/files/.*$
+RewriteCond %{REQUEST_URI} !tinymce/plugins/minigallery/.*$
+RewriteCond %{REQUEST_URI} !tinymce/plugins/filelink/.*$
+RewriteCond %{REQUEST_URI} !index\.php$
+RewriteCond %{REQUEST_URI} !\.tests.*$
+RewriteRule ^(.+)$ index.php?p_id=$1 

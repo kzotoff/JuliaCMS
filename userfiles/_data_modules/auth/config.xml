@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<JuliaCMS_module_definition>
+	<version caption="Версия">1.0</version>
+	<comment caption="Описание">Авторизация</comment>
+	<main_script>func.php</main_script>
+	<class_name>J_Auth</class_name>
+	<css>auth.css</css>
+	<admin_caption>auth</admin_caption>
+	<config caption="Настройка:">
+		<require_login caption="Пароль обязателен">true</require_login>
+		<session_username caption="Переменная сессии">module_auth_user_logged</session_username>
+		<database caption="Параметры БД">
+			<server_driver caption="Драйвер">sqlite</server_driver>
+			<server_host caption="Хост/файл"></server_host>
+			<server_login caption="Логни"/>
+			<server_password caption="Пароль"/>
+			<server_db_name caption="База данных"/>
+		</database>
+		<secret_default caption="Секрет по умолчанию">je1?lwreLNK9*tu+fcgB85(H}JKJhv6ivg__</secret_default>
+		<table caption="Таблица">clients</table>
+		<login_field caption="Поле с логином">login</login_field>
+		<secret_field caption="Поле с секретом">secret</secret_field>
+		<md5_field caption="Поле с хешем">md5</md5_field>
+	</config>
+</JuliaCMS_module_definition>
